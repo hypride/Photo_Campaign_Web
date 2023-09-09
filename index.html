@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DNIC Sanad Poster</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="img3.jpg">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam&family=Roboto+Condensed&display=swap" rel="stylesheet">	
+<style>
+		
+    body{
+    margin: 0;
+    padding: 0;
+	padding-left: 5%;
+	padding-right: 5%;
+		overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+	  display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+    }
+	@font-face {
+  font-family: mlm;
+  src: url(apple.ttf);
+}
+html{
+    scroll-behavior: smooth;
+}
+		.container {
+			position: relative;
+			display: inline-block;
+		}
+
+		.overlay {
+			position: absolute;
+			top: 2350px;
+			left: 1641px;
+      		width: 29.9%;
+      		height: 22%;
+      		object-fit: cover;
+			z-index: -1;
+		}
+		
+		.text {
+			position: absolute;
+			top: 52%;
+			left: 51.5%;
+			font-weight: 400;
+			transform: translate(-50%, -50%);
+			font-size: 3em;
+			font-family: mlm;
+			color: white;
+			text-align: center;
+			z-index: 2;
+		}
+		#text-input{
+			font-size: 1em;
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #ccc;
+	margin-top: 2px;
+	margin: 10px;
+	width: 80%;
+	max-width: 500px;
+		}
+		#overlay-image-btn {
+  font-size: 1em;
+  padding: 10px;
+  border-radius: 50px;
+  background-color: #4caf50;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  margin-top: 2px;
+  margin: 10px;
+  width: 280px;
+  max-width: 500px;
+  cursor: pointer;
+}
+#download{
+	font-size: 1em;
+  padding: 10px;
+  color: white;
+  background-color: #4caf50;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border-radius: 50px;
+  border: 1px solid #00ff80;
+  margin-top: 2px;
+  margin: 10px;
+  width: 280px;
+  max-width: 500px;
+  cursor: pointer;
+}
+
+	</style>
+</head>
+<body>
+	<img src="img2.png" class="imag" style="width:140px; height: 10px; padding-top: 3%; visibility: hidden;">
+    <p style="text-align: center; font-size: 13px; margin-bottom: 0px; font-family: 'Noto Sans Malayalam', sans-serif;"><b>ചെമ്പോട് യൂണിറ്റിൽ ആരവത്തിന്റെ നാളുകൾ </b></p>
+    <img src="logo.png" class="imag" style="width:260px; height: 260px;">
+	<div class="data-col" style="text-align: center; display: contents;">
+		<h4 style="padding: 0%; margin-top: 2%; margin-bottom: 0%; font-weight: 500;"><b>SKSSF CHEMBOD UNIT - <span style="font-size: 18px; font-family: 'Noto Sans Malayalam', sans-serif;">ബാലാരവാം 2023</span> </b></h4>
+		<h3 style="margin-bottom: 0px; font-family: 'Roboto Condensed', sans-serif;"></h3>
+	<input type="text" id="text-input" placeholder="Write your Name in Malayalam..." style="display:none; font-family: 'Noto Sans Malayalam', sans-serif;">
+	<div>
+		<button id="overlay-image-btn" style="color:white; margin-bottom: 3px;">Select The Image</button>
+		<p style="margin-top: 0px; font-size: 14px; color: red;"><i>* Please upload sqaure shaped photo</i></p>
+		<input type="file" id="overlay-image" accept="image/*" style="display: none;">
+</div>
+	<div>
+
+	<button onclick="downloadImage()" id="download">Download The Final Image</button>
+	<p style="font-size: 13px;">Developed By <a href="https://naz-devs.github.io/" style="text-decoration: none; color: #4caf50;"><b>Naz-Devs</b></a></p>
+	</div>
+	</div>
+	<div style="height: 0px; width: 00px; overflow: scroll;">
+	<div class="container" id="myDiv" >
+		<img src="dim.png" alt="Background Image">
+		<div class="text" id="text"></div>
+		<img src="" alt="Overlay Image" class="overlay" id="overlay">
+	</div>
+</div>
+	
+	<script></script>
+	</script>
+	<script>
+		function downloadImage() {
+  // Get the container element
+  const container = document.getElementById('myDiv');
+
+  // Use the dom-to-image library to convert the container element to a canvas
+  domtoimage.toPng(container).then(function(dataUrl) {
+    // Create a download link for the canvas image
+    var link = document.createElement("a");
+    document.body.appendChild(link);
+    link.download = "FinalImage.png";
+    link.href = dataUrl;
+    link.target = '_blank';
+    
+    // Trigger a click event on the download link to download the image
+    link.click();
+  });
+}
+
+	</script>
+	
+	<script>
+
+		const overlayImage = document.getElementById('overlay');
+		const textInput = document.getElementById('text-input');
+		const text = document.getElementById('text');
+		const overlayImageInput = document.getElementById('overlay-image');
+const overlayImageBtn = document.getElementById('overlay-image-btn');
+
+overlayImageBtn.addEventListener('click', () => {
+  overlayImageInput.click();
+});
+
+
+		
+		textInput.addEventListener('input', () => {
+			text.textContent = textInput.value;
+		});
+		
+		overlayImageInput.addEventListener('change', () => {
+			const file = overlayImageInput.files[0];
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => {
+				overlayImage.src = reader.result;
+			};
+		});
+
+	</script>
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+</body>
+</html>
