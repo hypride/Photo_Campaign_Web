@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Image Cropping Example</title>
+	<!-- Include Cropper.js CSS and JS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
+	<style>
+	/* Add some basic styling for the preview and cropped image */
+	body {
+		font-family: Arial, sans-serif;
+		text-align: center;
+		background-color: #f2f2f2;
+		padding: 20px;
+	}
+
+	.container {
+		max-width: 600px;
+		margin: 0 auto;
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	.container2 {
+		max-width: 600px;
+		margin: 0 auto;
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	h1 {
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+
+	/* Style the "Choose File" button */
+	.custom-file-input {
+		display: none;
+	}
+
+	.custom-file-label {
+		background-color: #007BFF;
+		color: #fff;
+		padding: 10px 20px;
+		border: none;
+		border-radius: 4px;
+		font-size: 16px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.custom-file-label:hover {
+		background-color: #0056b3;
+	}
+
+	#imageInputContainer {
+		margin-top: 20px;
+		/* Add margin to create space between button and image */
+	}
+
+	#previewImage {
+		max-width: 100%;
+		margin: 20px 0;
+	}
+
+	#cropButton {
+		margin-top: 20px;
+		/* Add margin to create space between button and image */
+		padding: 10px 20px;
+		background-color: #007BFF;
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		font-size: 16px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	#cropButton:hover {
+		background-color: #0056b3;
+	}
+
+	#croppedImage {
+		max-width: 100%;
+		margin: 20px 0;
+		position: absolute;
+		/* Set cropped image as absolute for overlay */
+		top: 300px; /* Change the Top and Left here */
+		left: 400px; /* Change the Top and Left here */
+		z-index: 1;
+	}
+
+	.background-image {
+		position: relative;
+		/* Ensure the background image is in the normal document flow */
+		z-index: 2;
+		/* Make the background image appear on top (higher z-index) */
+	}
+
+	.overlay-image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		/* Make the overlay image appear underneath (lower z-index) */
+	}
+	</style>
+</head>
+
+<body>
+	<div class="container" id="container">
+		<h1>Photo Campaign - Example</h1>
+		<div id="imageInputContainer">
+			<label class="custom-file-label" for="imageInput">Choose File</label>
+			<input type="file" id="imageInput" accept="image/*" class="custom-file-input">
+		</div>
+		<div style="margin-top: 30px;">
+			<img id="previewImage" src="" alt="Preview">
+		</div>
+		<button id="cropButton" onclick="disfun()">Proceed The Image</button>
+        <p style="font-size: 14px;">Developed By <span style="color: #0056b3;"><a style="text-decoration: none;" href="https://instagram.com/nazimcp7"><b>Nazim Cp</b></a></span></p>
+	</div>
+	<div class="container2" id="container2" style="display: none;">
+		<h1>Successfully Generated!</h1>
+		<button id="oneClickButton">Download The Final Image</button>
+	</div>
+	<div style="height: 10px; width: 10px; overflow: scroll;">
+		<div id="div" style="position: relative; overflow: scroll; width: 1065px; "><!-- At here change the frame image size-->
+			<div>
+				<img id="croppedImage" src="" alt="Cropped Image">
+			</div>
+			<img class="background-image" src="dim.png" alt="Background Image">
+		</div>
+	</div>
+	<!-- Include Cropper.js JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+	<script>
+	const oneClickButton = document.getElementById("oneClickButton");
+	const myDiv = document.getElementById("div");
+	oneClickButton.addEventListener("click", () => {
+		html2canvas(myDiv).then(canvas => {
+			const imgData = canvas.toDataURL("image/png");
+			// Create a temporary anchor element to trigger the download
+			const tempLink = document.createElement("a");
+			tempLink.href = imgData;
+			tempLink.download = "my_div_image.png";
+			tempLink.click();
+		});
+	});
+	</script>
+	<script>
+	// Initialize Cropper.js
+	let cropper;
+	// Get references to HTML elements
+	const imageInput = document.getElementById('imageInput');
+	const previewImage = document.getElementById('previewImage');
+	const cropButton = document.getElementById('cropButton');
+	const croppedImage = document.getElementById('croppedImage');
+	// Listen for file selection
+	imageInput.addEventListener('change', (e) => {
+		const file = e.target.files[0];
+		if(file) {
+			// Create a FileReader to preview the selected image
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				previewImage.src = e.target.result;
+				// Initialize Cropper.js
+				cropper = new Cropper(previewImage, {
+					aspectRatio: 1, // You can set the aspect ratio you desire
+					viewMode: 1,
+				});
+			};
+			reader.readAsDataURL(file);
+		}
+	});
+	// Listen for the "Crop Image" button click
+	cropButton.addEventListener('click', () => {
+		// Get the cropped data
+		const croppedData = cropper.getData();
+		// Create a canvas to draw the cropped image
+		const canvas = cropper.getCroppedCanvas();
+		// Check if a cropped canvas is available
+		if(canvas) {
+			// Convert the canvas to a data URL and set it as the src of the cropped image element
+			croppedImage.src = canvas.toDataURL();
+		} else {
+			alert('No image is cropped yet.');
+		}
+	});
+	</script>
+	<script>
+	function disfun() {
+		document.getElementById("container").style.display = "none";
+		document.getElementById("container2").style.display = "block";
+	}
+	</script>
+</body>
+
+</html>
